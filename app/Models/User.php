@@ -2,14 +2,29 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+/**
+ * This is the model class for table "comment".
+ *
+ * @property int $id
+
+ * @property string|null $name
+ * @property string|null $email
+ * @property string $role
+ * @property string $password
+ * @property int $status
+
+ *
+ */
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
+
+    public const  ENABLED_STATUS = 1;
+    public const  DISABLED_STATUS = 0;
 
     /**
      * The attributes that are mass assignable.
@@ -43,5 +58,13 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function getStatusName(): string
+    {
+        if ($this->status == self::ENABLED_STATUS) {
+            return 'Enabled';
+        }
+        return 'Disabled';
     }
 }
